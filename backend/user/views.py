@@ -690,7 +690,7 @@ def get_token(request):
     return HttpResponse(status=200,content=True)
 
 def send_registration_email(request):
-    if(request.method=='POST'):
+    if(request.method == 'POST'):
         body=json.loads(request.body)
         username=body['username']
         password=body['password']
@@ -767,7 +767,7 @@ import pandas as pd
 
 #交叉分析
 def cross_analysis(request,questionID1,questionID2):
-    if request.method == 'GET':
+    if (request.method == 'GET'):
         question1 = ChoiceQuestion.object.get(QuestionID=QuestionID1)
         question2 = ChoiceQuestion.object.get(QuestionID=QuestionID2)
 
@@ -792,10 +792,9 @@ def cross_analysis(request,questionID1,questionID2):
         return JsonResponse(results)
 
 #下载表格
-def download_submissions(request):
-    if request.method == 'GET':
-        survey_id = request.GET.get('surveyId')
-        survey = Submission.objects.filter(Survey__SurveyID=survey_id).first().Survey
+def download_submissions(request, surveyID):
+    if (request.method == 'GET'):
+        survey = Submission.objects.filter(Survey__SurveyID=surveyID).first().Survey
 
         submissions = Submission.objects.filter(Survey__SurveyID=survey_id, Status__in=['Submitted', 'Graded'])
 
@@ -843,10 +842,9 @@ def download_submissions(request):
 
 from django.db.models import Count, Sum, Q
 
-def survey_statistics(request):
-    if request.method=='GET':
-        survey_id = request.GET.get('surveyID')
-        survey = Survey.objects.get(SurveyID=survey_id)
+def survey_statistics(request, surveyID):
+    if (request.method=='GET'):
+        survey = Survey.objects.get(SurveyID=surveyID)
         survey_stat = SurveyStatistic.objects.get(Survey=survey)
     
         #问卷基础信息
